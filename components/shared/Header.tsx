@@ -7,6 +7,7 @@ import NavItems from "./NavItems";
 import MobileNav from "./MobileNav";
 
 const Header = () => {
+  // let number = 0;
   return (
     <header className="w-full border-b">
       <div className={`wrapper flex items-center justify-between`}>
