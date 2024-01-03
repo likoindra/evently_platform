@@ -1,34 +1,41 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'; 
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
 let cached = (global as any).mongoose || { conn: null, promise: null };
 
 export const connectToDatabase = async () => {
-  if (cached.conn) return cached.conn;
+  // if (cached.conn) return cached.conn;
 
-  if(!MONGODB_URI) throw new Error('MONGODB_URI is missing');
+  // if(!MONGODB_URI) throw new Error('MONGODB_URI is missing');
 
-  // try {
-  //   cached.promise = cached.promise || mongoose.connect(MONGODB_URI, {
+  // cached.promise = cached.promise || mongoose.connect(MONGODB_URI, {
   //     dbName: 'evently',
   //     bufferCommands: false,
-  //   })
+  // })
 
-  //   console.log(MONGODB_URI,'connected')
-  // } catch (error) {
-  //   console.log(error)
-  // }
+  // cached.conn = await cached.promise;
 
-  cached.promise = cached.promise || mongoose.connect(MONGODB_URI, {
+  // return cached.conn;
+
+  try {
+    cached.promise = cached.promise || mongoose.connect(String(process.env.MONGODB_URI), {
       dbName: 'evently',
       bufferCommands: false,
-  })
-
-  cached.conn = await cached.promise;
-
-  return cached.conn;
+    });
+  
+    console.log('Connected')
+    cached.conn = await cached.promise;
+    return cached.conn;
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+    throw error; // Rethrow the error to indicate the failure to connect
+  }
 }
+
+
+
+
 
 
 

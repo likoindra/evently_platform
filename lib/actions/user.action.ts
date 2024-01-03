@@ -9,12 +9,14 @@ import Event from '@/lib/database/models/event.model'
 import { handleError } from '@/lib/utils'
 
 import { CreateUserParams, UpdateUserParams } from '@/types'
+import { stringify } from 'postcss'
 
 export async function createUser(user: CreateUserParams) {
   try {
     await connectToDatabase()
 
     const newUser = await User.create(user)
+    // console.log(JSON.parse(JSON.stringify(newUser)), 'newUser')
     return JSON.parse(JSON.stringify(newUser))
   } catch (error) {
     handleError(error)
